@@ -673,8 +673,8 @@ module System.Linq
 			var c: number = count | 0;
 
 			return this.doAction(
-				(element: T, index?: number)
-					=> index < c
+				(element: T, index?: number) =>
+					index < c
 					? EnumerableAction.Skip
 					: EnumerableAction.Return);
 		}
@@ -687,8 +687,7 @@ module System.Linq
 			var skipping: boolean = true;
 
 			return this.doAction(
-				(element: T, index?: number)
-					=>
+				(element: T, index?: number) =>
 				{
 					if (skipping)
 						skipping = predicate(element, index);
@@ -721,8 +720,10 @@ module System.Linq
 			this.assertIsNotDisposed();
 
 			return this.doAction(
-				(element: T, index?: number)
-					=> predicate(element, index) ? EnumerableAction.Return : EnumerableAction.Break);
+				(element: T, index?: number) =>
+					predicate(element, index)
+						? EnumerableAction.Return
+						: EnumerableAction.Break);
 		}
 
 		// Is like the inverse of take While with the ability to return the value identified by the predicate.
@@ -733,13 +734,14 @@ module System.Linq
 
 			if (!includeUntilValue)
 				return this.doAction(
-					(element: T, index?: number)
-						=> predicate(element, index) ? EnumerableAction.Break : EnumerableAction.Return);
+					(element: T, index?: number) =>
+						predicate(element, index)
+							? EnumerableAction.Break
+							: EnumerableAction.Return);
 
 			var found: boolean = false;
 			return this.doAction(
-				(element: T, index?: number)
-					=>
+				(element: T, index?: number) =>
 				{
 					if (found)
 						return EnumerableAction.Break;
